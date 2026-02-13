@@ -22,6 +22,8 @@ urlpatterns = [
     # User management
     path("users/", include("kancraonewms.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
+    # Master data management
+    path("master/", include("kancraonewms.master.urls", namespace="master")),
     # Your stuff: custom urls includes go here
     # ...
     # Media files
