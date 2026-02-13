@@ -42,7 +42,7 @@ class Company(models.Model):
         blank=True,
         help_text=_("Tax identification number"),
     )
-    
+
     # Contact Information
     phone = models.CharField(
         _("Phone"),
@@ -57,7 +57,7 @@ class Company(models.Model):
         _("Website"),
         blank=True,
     )
-    
+
     # Address
     address = models.TextField(
         _("Address"),
@@ -83,7 +83,7 @@ class Company(models.Model):
         max_length=100,
         default="Indonesia",
     )
-    
+
     # Business Details
     currency = models.CharField(
         _("Currency"),
@@ -103,7 +103,7 @@ class Company(models.Model):
         default=0,
         help_text=_("Credit limit for this company"),
     )
-    
+
     # Status
     is_active = models.BooleanField(
         _("Active"),
@@ -114,7 +114,7 @@ class Company(models.Model):
         _("Notes"),
         blank=True,
     )
-    
+
     # Timestamps
     created_at = models.DateTimeField(
         _("Created At"),

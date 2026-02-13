@@ -27,12 +27,12 @@ class CompanyAdmin(admin.ModelAdmin):
     @admin.action(description=_("Activate selected companies"))
     def activate_companies(self, request, queryset):
         updated = queryset.update(is_active=True)
-        self.message_user(request, _(f"{updated} companies activated successfully."))
+        self.message_user(request, _(f"{updated} companies activated successfully."))  # noqa: INT001
 
     @admin.action(description=_("Deactivate selected companies"))
     def deactivate_companies(self, request, queryset):
         updated = queryset.update(is_active=False)
-        self.message_user(request, _(f"{updated} companies deactivated successfully."))
+        self.message_user(request, _(f"{updated} companies deactivated successfully."))  # noqa: INT001
 
     fieldsets = (
         (
