@@ -7,7 +7,8 @@ from django.views.generic import DetailView
 from django.views.generic import ListView
 from django.views.generic import UpdateView
 
-from .models import Item, UOM
+from .models import UOM
+from .models import Item
 
 
 class ItemListView(LoginRequiredMixin, ListView):

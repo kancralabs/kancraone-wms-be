@@ -1,7 +1,8 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 
-from .models import Item, UOM
+from .models import UOM
+from .models import Item
 
 
 @admin.register(Item)

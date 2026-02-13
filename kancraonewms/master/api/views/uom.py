@@ -9,8 +9,9 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
+from kancraonewms.master.api.serializers import UOMListSerializer
+from kancraonewms.master.api.serializers import UOMSerializer
 from kancraonewms.master.models import UOM
-from kancraonewms.master.api.serializers import UOMListSerializer, UOMSerializer
 
 
 class UOMViewSet(

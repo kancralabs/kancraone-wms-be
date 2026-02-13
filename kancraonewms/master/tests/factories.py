@@ -1,7 +1,9 @@
-from factory import DjangoModelFactory, Faker
+from factory import DjangoModelFactory
+from factory import Faker
 from factory.fuzzy import FuzzyChoice
 
-from kancraonewms.master.models import Item, UOM
+from kancraonewms.master.models import UOM
+from kancraonewms.master.models import Item
 
 
 class ItemFactory(DjangoModelFactory):
