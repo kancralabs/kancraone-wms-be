@@ -1,3 +1,4 @@
+from django.db.models import Q
 from rest_framework.decorators import action
 from rest_framework.mixins import CreateModelMixin
 from rest_framework.mixins import DestroyModelMixin
@@ -9,9 +10,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
 from kancraonewms.master.models import Item
-
-from .serializers import ItemListSerializer
-from .serializers import ItemSerializer
+from kancraonewms.master.api.serializers import ItemListSerializer, ItemSerializer
 
 
 class ItemViewSet(
@@ -44,8 +43,7 @@ class ItemViewSet(
         search = self.request.query_params.get("search")
         if search:
             queryset = queryset.filter(
-                models.Q(code__icontains=search) |  # noqa: F821
-                models.Q(name__icontains=search),  # noqa: F821
+                Q(code__icontains=search) | Q(name__icontains=search),
             )
 
         return queryset

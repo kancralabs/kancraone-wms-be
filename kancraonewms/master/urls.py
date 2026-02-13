@@ -5,13 +5,25 @@ from .views import ItemDeleteView
 from .views import ItemDetailView
 from .views import ItemListView
 from .views import ItemUpdateView
+from .views import UOMCreateView
+from .views import UOMDeleteView
+from .views import UOMDetailView
+from .views import UOMListView
+from .views import UOMUpdateView
 
 app_name = "master"
 
 urlpatterns = [
+    # Item URLs
     path("items/", ItemListView.as_view(), name="item-list"),
     path("items/<int:pk>/", ItemDetailView.as_view(), name="item-detail"),
     path("items/create/", ItemCreateView.as_view(), name="item-create"),
     path("items/<int:pk>/update/", ItemUpdateView.as_view(), name="item-update"),
     path("items/<int:pk>/delete/", ItemDeleteView.as_view(), name="item-delete"),
+    # UOM URLs
+    path("uoms/", UOMListView.as_view(), name="uom-list"),
+    path("uoms/<int:pk>/", UOMDetailView.as_view(), name="uom-detail"),
+    path("uoms/create/", UOMCreateView.as_view(), name="uom-create"),
+    path("uoms/<int:pk>/update/", UOMUpdateView.as_view(), name="uom-update"),
+    path("uoms/<int:pk>/delete/", UOMDeleteView.as_view(), name="uom-delete"),
 ]
