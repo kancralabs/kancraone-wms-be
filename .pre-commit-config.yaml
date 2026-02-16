@@ -1,4 +1,4 @@
-exclude: '^docs/|/migrations/|devcontainer.json'
+exclude: '^docs/|/migrations/|devcontainer.json|webpack/.*|.*\.js$|.*\.html$'
 default_stages: [pre-commit]
 minimum_pre_commit_version: "3.2.0"
 
@@ -26,7 +26,7 @@ repos:
     hooks:
       - id: prettier
         args: ['--tab-width', '2', '--single-quote']
-        exclude: 'kancraonewms/templates/'
+        exclude: 'kancraonewms/templates/|webpack/.*|.*\.js$|.*\.html$'
 
   - repo: https://github.com/adamchainz/django-upgrade
     rev: '1.29.1'
@@ -48,7 +48,9 @@ repos:
     rev: v1.36.4
     hooks:
       - id: djlint-reformat-django
+        exclude: '.*\.html$|webpack/.*'
       - id: djlint-django
+        exclude: '.*\.html$|webpack/.*'
 
 # sets up .pre-commit-ci.yaml to ensure pre-commit dependencies stay up to date
 ci:

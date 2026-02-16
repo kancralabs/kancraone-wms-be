@@ -29,6 +29,7 @@ class RegisterView(generics.CreateAPIView):
     """
     API endpoint untuk registrasi user baru
     """
+
     queryset = User.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = RegisterSerializer
@@ -41,19 +42,22 @@ class RegisterView(generics.CreateAPIView):
         # Generate JWT tokens untuk user baru
         refresh = RefreshToken.for_user(user)
 
-        return Response({
-            "message": "User registered successfully",
-            "user": {
-                "id": user.id,
-                "username": user.username,
-                "email": user.email,
-                "name": user.name,
+        return Response(
+            {
+                "message": "User registered successfully",
+                "user": {
+                    "id": user.id,
+                    "username": user.username,
+                    "email": user.email,
+                    "name": user.name,
+                },
+                "tokens": {
+                    "refresh": str(refresh),
+                    "access": str(refresh.access_token),
+                },
             },
-            "tokens": {
-                "refresh": str(refresh),
-                "access": str(refresh.access_token),
-            },
-        }, status=status.HTTP_201_CREATED)
+            status=status.HTTP_201_CREATED,
+        )
 
 
 class LoginView(TokenObtainPairView):
@@ -61,6 +65,7 @@ class LoginView(TokenObtainPairView):
     API endpoint untuk login dengan username/password
     Returns: access token, refresh token, dan user info
     """
+
     permission_classes = (AllowAny,)
     serializer_class = LoginSerializer
 
@@ -69,6 +74,7 @@ class LogoutView(APIView):
     """
     API endpoint untuk logout (blacklist refresh token)
     """
+
     permission_classes = (IsAuthenticated,)
 
     def post(self, request):
@@ -98,6 +104,7 @@ class GetMeView(APIView):
     """
     API endpoint untuk mendapatkan info user yang sedang login (by token)
     """
+
     permission_classes = (IsAuthenticated,)
 
     def get(self, request):
@@ -109,10 +116,14 @@ class ChangePasswordView(APIView):
     """
     API endpoint untuk ubah password user yang sedang login
     """
+
     permission_classes = (IsAuthenticated,)
 
     def post(self, request):
-        serializer = ChangePasswordSerializer(data=request.data, context={"request": request})  # noqa: E501
+        serializer = ChangePasswordSerializer(
+            data=request.data,
+            context={"request": request},
+        )
         if serializer.is_valid():
             serializer.save()
             return Response(
@@ -127,6 +138,7 @@ class ResetPasswordRequestView(APIView):
     API endpoint untuk request reset password
     Mengirim email dengan token reset password
     """
+
     permission_classes = (AllowAny,)
 
     def post(self, request):
@@ -151,7 +163,11 @@ class ResetPasswordRequestView(APIView):
                     fail_silently=False,
                 )
                 return Response(
-                    {"message": "Password reset email has been sent", "token": token, "uid": uid},  # noqa: E501
+                    {
+                        "message": "Password reset email has been sent",
+                        "token": token,
+                        "uid": uid,
+                    },
                     status=status.HTTP_200_OK,
                 )
             except Exception:  # noqa: BLE001
@@ -167,6 +183,7 @@ class ResetPasswordConfirmView(APIView):
     """
     API endpoint untuk konfirmasi reset password dengan token
     """
+
     permission_classes = (AllowAny,)
 
     def post(self, request):
@@ -208,4 +225,5 @@ class CustomTokenRefreshView(TokenRefreshView):
     """
     API endpoint untuk refresh access token
     """
+
     permission_classes = (AllowAny,)

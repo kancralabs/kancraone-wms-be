@@ -4,10 +4,10 @@ from factory.django import DjangoModelFactory
 from factory.fuzzy import FuzzyChoice
 from factory.fuzzy import FuzzyDecimal
 
+from kancraonewms.master.models import UOM
 from kancraonewms.master.models import Item
 from kancraonewms.master.models import ItemUOM
 from kancraonewms.master.models import Rack
-from kancraonewms.master.models import UOM
 from kancraonewms.organizations.tests.factories import WarehouseFactory
 
 

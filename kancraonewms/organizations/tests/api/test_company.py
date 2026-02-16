@@ -1,6 +1,7 @@
 """
 Tests for Company API endpoints
 """
+
 from decimal import Decimal
 
 from django.urls import reverse
@@ -20,7 +21,9 @@ class CompanyViewSetTest(APITestCase):
         """Set up test fixtures"""
         self.user = UserFactory()
         self.refresh = RefreshToken.for_user(self.user)
-        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {self.refresh.access_token}")
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f"Bearer {self.refresh.access_token}",
+        )
 
         # Create test companies
         self.company1 = CompanyFactory(
@@ -60,35 +63,35 @@ class CompanyViewSetTest(APITestCase):
         """Test listing all companies"""
         response = self.client.get(self.list_url)
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert response.status_code == status.HTTP_200_OK
         results = self._get_results(response)
-        self.assertEqual(len(results), 3)
+        assert len(results) == 3  # noqa: PLR2004
 
     def test_list_companies_unauthenticated(self):
         """Test listing companies without authentication"""
         self.client.credentials()
         response = self.client.get(self.list_url)
 
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
     def test_retrieve_company_success(self):
         """Test retrieving a single company"""
         url = reverse("api:company-detail", kwargs={"pk": self.company1.pk})
         response = self.client.get(url)
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data["code"], "COMP-001")
-        self.assertEqual(response.data["name"], "Test Company 1")
-        self.assertIn("tax_id", response.data)
-        self.assertIn("phone", response.data)
-        self.assertIn("email", response.data)
+        assert response.status_code == status.HTTP_200_OK
+        assert response.data["code"] == "COMP-001"
+        assert response.data["name"] == "Test Company 1"
+        assert "tax_id" in response.data
+        assert "phone" in response.data
+        assert "email" in response.data
 
     def test_retrieve_company_not_found(self):
         """Test retrieving non-existent company"""
         url = reverse("api:company-detail", kwargs={"pk": 99999})
         response = self.client.get(url)
 
-        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        assert response.status_code == status.HTTP_404_NOT_FOUND
 
     def test_create_company_success(self):
         """Test creating a new company"""
@@ -114,10 +117,10 @@ class CompanyViewSetTest(APITestCase):
 
         response = self.client.post(self.list_url, data)
 
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(response.data["code"], "COMP-NEW")
-        self.assertEqual(response.data["name"], "New Test Company")
-        self.assertTrue(Company.objects.filter(code="COMP-NEW").exists())
+        assert response.status_code == status.HTTP_201_CREATED
+        assert response.data["code"] == "COMP-NEW"
+        assert response.data["name"] == "New Test Company"
+        assert Company.objects.filter(code="COMP-NEW").exists()
 
     def test_create_company_duplicate_code(self):
         """Test creating company with duplicate code"""
@@ -129,8 +132,8 @@ class CompanyViewSetTest(APITestCase):
 
         response = self.client.post(self.list_url, data)
 
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertIn("code", response.data)
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+        assert "code" in response.data
 
     def test_create_company_missing_required_fields(self):
         """Test creating company with missing required fields"""
@@ -141,8 +144,8 @@ class CompanyViewSetTest(APITestCase):
 
         response = self.client.post(self.list_url, data)
 
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertIn("code", response.data)
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+        assert "code" in response.data
 
     def test_update_company_success(self):
         """Test updating a company"""
@@ -156,14 +159,14 @@ class CompanyViewSetTest(APITestCase):
 
         response = self.client.put(url, data)
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data["name"], "Updated Company Name")
-        self.assertEqual(response.data["company_type"], "vendor")
+        assert response.status_code == status.HTTP_200_OK
+        assert response.data["name"] == "Updated Company Name"
+        assert response.data["company_type"] == "vendor"
 
         # Verify in database
         self.company1.refresh_from_db()
-        self.assertEqual(self.company1.name, "Updated Company Name")
-        self.assertEqual(self.company1.company_type, "vendor")
+        assert self.company1.name == "Updated Company Name"
+        assert self.company1.company_type == "vendor"
 
     def test_partial_update_company_success(self):
         """Test partially updating a company"""
@@ -174,45 +177,45 @@ class CompanyViewSetTest(APITestCase):
 
         response = self.client.patch(url, data)
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data["name"], "Partially Updated Company")
-        self.assertEqual(response.data["code"], "COMP-001")  # Unchanged
+        assert response.status_code == status.HTTP_200_OK
+        assert response.data["name"] == "Partially Updated Company"
+        assert response.data["code"] == "COMP-001"  # Unchanged
 
     def test_delete_company_success(self):
         """Test deleting a company"""
         url = reverse("api:company-detail", kwargs={"pk": self.company1.pk})
         response = self.client.delete(url)
 
-        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-        self.assertFalse(Company.objects.filter(pk=self.company1.pk).exists())
+        assert response.status_code == status.HTTP_204_NO_CONTENT
+        assert not Company.objects.filter(pk=self.company1.pk).exists()
 
     def test_filter_by_active_status(self):
         """Test filtering companies by active status"""
         response = self.client.get(self.list_url, {"is_active": "true"})
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert response.status_code == status.HTTP_200_OK
         results = self._get_results(response)
-        self.assertEqual(len(results), 2)
+        assert len(results) == 2  # noqa: PLR2004
         for company in results:
-            self.assertTrue(company["is_active"])
+            assert company["is_active"]
 
     def test_filter_by_inactive_status(self):
         """Test filtering companies by inactive status"""
         response = self.client.get(self.list_url, {"is_active": "false"})
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert response.status_code == status.HTTP_200_OK
         results = self._get_results(response)
-        self.assertEqual(len(results), 1)
-        self.assertFalse(results[0]["is_active"])
+        assert len(results) == 1
+        assert not results[0]["is_active"]
 
     def test_filter_by_company_type(self):
         """Test filtering companies by type"""
         response = self.client.get(self.list_url, {"company_type": "customer"})
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert response.status_code == status.HTTP_200_OK
         results = self._get_results(response)
-        self.assertEqual(len(results), 1)
-        self.assertEqual(results[0]["code"], "COMP-001")
+        assert len(results) == 1
+        assert results[0]["code"] == "COMP-001"
 
     def test_filter_by_country(self):
         """Test filtering companies by country"""
@@ -221,106 +224,131 @@ class CompanyViewSetTest(APITestCase):
 
         response = self.client.get(self.list_url, {"country": "USA"})
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert response.status_code == status.HTTP_200_OK
         results = self._get_results(response)
-        self.assertEqual(len(results), 1)
-        self.assertEqual(results[0]["code"], "COMP-US")
+        assert len(results) == 1
+        assert results[0]["code"] == "COMP-US"
 
     def test_search_by_code(self):
         """Test searching companies by code"""
         response = self.client.get(self.list_url, {"search": "COMP-001"})
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert response.status_code == status.HTTP_200_OK
         results = self._get_results(response)
-        self.assertEqual(len(results), 1)
-        self.assertEqual(results[0]["code"], "COMP-001")
+        assert len(results) == 1
+        assert results[0]["code"] == "COMP-001"
 
     def test_search_by_name(self):
         """Test searching companies by name"""
         response = self.client.get(self.list_url, {"search": "Company 2"})
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert response.status_code == status.HTTP_200_OK
         results = self._get_results(response)
-        self.assertEqual(len(results), 1)
-        self.assertEqual(results[0]["name"], "Test Company 2")
+        assert len(results) == 1
+        assert results[0]["name"] == "Test Company 2"
 
     def test_search_by_city(self):
         """Test searching companies by city"""
         response = self.client.get(self.list_url, {"search": "Bandung"})
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert response.status_code == status.HTTP_200_OK
         results = self._get_results(response)
-        self.assertEqual(len(results), 1)
-        self.assertEqual(results[0]["city"], "Bandung")
+        assert len(results) == 1
+        assert results[0]["city"] == "Bandung"
 
     def test_search_case_insensitive(self):
         """Test search is case insensitive"""
         response = self.client.get(self.list_url, {"search": "company 1"})
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert response.status_code == status.HTTP_200_OK
         results = self._get_results(response)
-        self.assertGreaterEqual(len(results), 1)
+        assert len(results) >= 1
 
     def test_activate_company(self):
         """Test activating a company"""
         url = reverse("api:company-activate", kwargs={"pk": self.company3.pk})
         response = self.client.post(url)
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertTrue(response.data["is_active"])
+        assert response.status_code == status.HTTP_200_OK
+        assert response.data["is_active"]
 
         # Verify in database
         self.company3.refresh_from_db()
-        self.assertTrue(self.company3.is_active)
+        assert self.company3.is_active
 
     def test_deactivate_company(self):
         """Test deactivating a company"""
         url = reverse("api:company-deactivate", kwargs={"pk": self.company1.pk})
         response = self.client.post(url)
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertFalse(response.data["is_active"])
+        assert response.status_code == status.HTTP_200_OK
+        assert not response.data["is_active"]
 
         # Verify in database
         self.company1.refresh_from_db()
-        self.assertFalse(self.company1.is_active)
+        assert not self.company1.is_active
 
     def test_list_serializer_fields(self):
         """Test list endpoint returns limited fields"""
         response = self.client.get(self.list_url)
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert response.status_code == status.HTTP_200_OK
         results = self._get_results(response)
         first_company = results[0]
 
         # Should have limited fields
-        expected_fields = {"id", "code", "name", "company_type", "city", "country", "is_active"}
-        self.assertEqual(set(first_company.keys()), expected_fields)
+        expected_fields = {
+            "id",
+            "code",
+            "name",
+            "company_type",
+            "city",
+            "country",
+            "is_active",
+        }
+        assert set(first_company.keys()) == expected_fields
 
     def test_detail_serializer_fields(self):
         """Test detail endpoint returns all fields"""
         url = reverse("api:company-detail", kwargs={"pk": self.company1.pk})
         response = self.client.get(url)
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert response.status_code == status.HTTP_200_OK
 
         # Should have all fields
         expected_fields = {
-            "id", "code", "name", "legal_name", "company_type", "tax_id",
-            "phone", "email", "website", "address", "city", "state",
-            "postal_code", "country", "currency", "payment_terms",
-            "credit_limit", "is_active", "notes", "created_at", "updated_at",
+            "id",
+            "code",
+            "name",
+            "legal_name",
+            "company_type",
+            "tax_id",
+            "phone",
+            "email",
+            "website",
+            "address",
+            "city",
+            "state",
+            "postal_code",
+            "country",
+            "currency",
+            "payment_terms",
+            "credit_limit",
+            "is_active",
+            "notes",
+            "created_at",
+            "updated_at",
         }
-        self.assertEqual(set(response.data.keys()), expected_fields)
+        assert set(response.data.keys()) == expected_fields
 
     def test_company_ordering(self):
         """Test companies are ordered by code"""
         response = self.client.get(self.list_url)
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert response.status_code == status.HTTP_200_OK
         results = self._get_results(response)
         codes = [company["code"] for company in results]
-        self.assertEqual(codes, sorted(codes))
+        assert codes == sorted(codes)
 
     def test_create_company_with_decimal_credit_limit(self):
         """Test creating company with decimal credit limit"""
@@ -333,8 +361,8 @@ class CompanyViewSetTest(APITestCase):
 
         response = self.client.post(self.list_url, data)
 
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(Decimal(response.data["credit_limit"]), Decimal("12345.67"))
+        assert response.status_code == status.HTTP_201_CREATED
+        assert Decimal(response.data["credit_limit"]) == Decimal("12345.67")
 
     def test_create_company_default_values(self):
         """Test company is created with correct default values"""
@@ -346,23 +374,26 @@ class CompanyViewSetTest(APITestCase):
 
         response = self.client.post(self.list_url, data)
 
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(response.data["currency"], "IDR")
-        self.assertEqual(response.data["payment_terms"], 30)
-        self.assertEqual(response.data["country"], "Indonesia")
-        self.assertEqual(Decimal(response.data["credit_limit"]), Decimal("0"))
+        assert response.status_code == status.HTTP_201_CREATED
+        assert response.data["currency"] == "IDR"
+        assert response.data["payment_terms"] == 30  # noqa: PLR2004
+        assert response.data["country"] == "Indonesia"
+        assert Decimal(response.data["credit_limit"]) == Decimal("0")
 
     def test_combined_filters(self):
         """Test combining multiple filters"""
-        response = self.client.get(self.list_url, {
-            "is_active": "true",
-            "company_type": "customer",
-        })
+        response = self.client.get(
+            self.list_url,
+            {
+                "is_active": "true",
+                "company_type": "customer",
+            },
+        )
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert response.status_code == status.HTTP_200_OK
         results = self._get_results(response)
-        self.assertEqual(len(results), 1)
-        self.assertEqual(results[0]["code"], "COMP-001")
+        assert len(results) == 1
+        assert results[0]["code"] == "COMP-001"
 
     def test_pagination(self):
         """Test pagination works correctly"""
@@ -372,12 +403,12 @@ class CompanyViewSetTest(APITestCase):
 
         response = self.client.get(self.list_url)
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert response.status_code == status.HTTP_200_OK
         # Check if paginated response
         if isinstance(response.data, dict) and "results" in response.data:
-            self.assertIn("count", response.data)
-            self.assertIn("results", response.data)
-            self.assertGreaterEqual(response.data["count"], 19)
+            assert "count" in response.data
+            assert "results" in response.data
+            assert response.data["count"] >= 19  # noqa: PLR2004
 
     def test_update_company_readonly_fields(self):
         """Test that readonly fields cannot be updated"""
@@ -392,9 +423,9 @@ class CompanyViewSetTest(APITestCase):
 
         response = self.client.put(url, data)
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert response.status_code == status.HTTP_200_OK
         self.company1.refresh_from_db()
-        self.assertEqual(self.company1.created_at, original_created_at)
+        assert self.company1.created_at == original_created_at
 
     def test_invalid_company_type(self):
         """Test creating company with invalid company type"""
@@ -406,21 +437,21 @@ class CompanyViewSetTest(APITestCase):
 
         response = self.client.post(self.list_url, data)
 
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertIn("company_type", response.data)
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+        assert "company_type" in response.data
 
     def test_empty_search_returns_all(self):
         """Test empty search parameter returns all companies"""
         response = self.client.get(self.list_url, {"search": ""})
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert response.status_code == status.HTTP_200_OK
         results = self._get_results(response)
-        self.assertEqual(len(results), 3)
+        assert len(results) == 3  # noqa: PLR2004
 
     def test_no_results_search(self):
         """Test search with no matching results"""
         response = self.client.get(self.list_url, {"search": "NonExistentCompany"})
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert response.status_code == status.HTTP_200_OK
         results = self._get_results(response)
-        self.assertEqual(len(results), 0)
+        assert len(results) == 0

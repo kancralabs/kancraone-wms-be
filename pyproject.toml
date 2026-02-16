@@ -46,6 +46,7 @@ include = "H017,H035"
 indent = 2
 max_line_length = 119
 profile = "django"
+exclude = "webpack/,*.js,*.html"
 
 [tool.djlint.css]
 indent_size = 2
@@ -58,6 +59,9 @@ indent_size = 2
 extend-exclude = [
     "*/migrations/*.py",
     "staticfiles/*",
+    "webpack/*",
+    "*.js",
+    "*.html",
 ]
 
 [tool.ruff.lint]
