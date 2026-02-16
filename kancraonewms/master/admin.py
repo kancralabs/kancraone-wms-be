@@ -4,6 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from .models import UOM
 from .models import Item
 from .models import ItemUOM
+from .models import Rack
 
 
 class ItemUOMInline(admin.TabularInline):
@@ -168,6 +169,58 @@ class ItemUOMAdmin(admin.ModelAdmin):
         }),
         (_("Additional Info"), {
             "fields": ("barcode", "is_active"),
+        }),
+        (_("Timestamps"), {
+            "fields": ("created_at", "updated_at"),
+            "classes": ("collapse",),
+        }),
+    )
+
+
+@admin.register(Rack)
+class RackAdmin(admin.ModelAdmin):
+    list_display = [
+        "code",
+        "name",
+        "warehouse",
+        "zone",
+        "aisle",
+        "bay",
+        "level",
+        "is_active",
+        "created_at",
+    ]
+    list_display_links = ["code", "name"]
+    list_filter = ["is_active", "warehouse", "zone", "created_at"]
+    search_fields = ["code", "name", "zone", "aisle", "bay", "level"]
+    ordering = ["warehouse", "code"]
+    readonly_fields = ["created_at", "updated_at"]
+    list_per_page = 50
+    autocomplete_fields = ["warehouse"]
+    actions = ["activate_racks", "deactivate_racks"]
+
+    @admin.action(description=_("Activate selected racks"))
+    def activate_racks(self, request, queryset):
+        updated = queryset.update(is_active=True)
+        self.message_user(request, _(f"{updated} racks activated successfully."))  # noqa: INT001
+
+    @admin.action(description=_("Deactivate selected racks"))
+    def deactivate_racks(self, request, queryset):
+        updated = queryset.update(is_active=False)
+        self.message_user(request, _(f"{updated} racks deactivated successfully."))  # noqa: INT001
+
+    fieldsets = (
+        (_("Basic Information"), {
+            "fields": ("warehouse", "code", "name", "description"),
+        }),
+        (_("Location within Warehouse"), {
+            "fields": ("zone", "aisle", "bay", "level"),
+        }),
+        (_("Capacity"), {
+            "fields": ("capacity", "max_weight"),
+        }),
+        (_("Status"), {
+            "fields": ("is_active", "notes"),
         }),
         (_("Timestamps"), {
             "fields": ("created_at", "updated_at"),

@@ -1,12 +1,14 @@
-from factory import DjangoModelFactory
 from factory import Faker
 from factory import SubFactory
+from factory.django import DjangoModelFactory
 from factory.fuzzy import FuzzyChoice
 from factory.fuzzy import FuzzyDecimal
 
-from kancraonewms.master.models import UOM
 from kancraonewms.master.models import Item
 from kancraonewms.master.models import ItemUOM
+from kancraonewms.master.models import Rack
+from kancraonewms.master.models import UOM
+from kancraonewms.organizations.tests.factories import WarehouseFactory
 
 
 class ItemFactory(DjangoModelFactory):
@@ -45,3 +47,21 @@ class ItemUOMFactory(DjangoModelFactory):
 
     class Meta:
         model = ItemUOM
+
+
+class RackFactory(DjangoModelFactory):
+    warehouse = SubFactory(WarehouseFactory)
+    code = Faker("lexify", text="RACK-????")
+    name = Faker("bs")
+    description = Faker("paragraph")
+    zone = Faker("random_element", elements=["A", "B", "C", "D"])
+    aisle = Faker("numerify", text="A##")
+    bay = Faker("numerify", text="B##")
+    level = Faker("random_int", min=1, max=5)
+    capacity = FuzzyDecimal(0.0, 1000.0, precision=2)
+    max_weight = FuzzyDecimal(0.0, 5000.0, precision=2)
+    is_active = True
+    notes = Faker("sentence")
+
+    class Meta:
+        model = Rack

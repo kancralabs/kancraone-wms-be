@@ -6,6 +6,7 @@ from rest_framework.routers import SimpleRouter
 
 from kancraonewms.master.api.views import ItemUOMViewSet
 from kancraonewms.master.api.views import ItemViewSet
+from kancraonewms.master.api.views import RackViewSet
 from kancraonewms.master.api.views import UOMViewSet
 from kancraonewms.organizations.api.views import CompanyViewSet
 from kancraonewms.organizations.api.views import WarehouseViewSet
@@ -19,6 +20,7 @@ router.register("warehouses", WarehouseViewSet)
 router.register("items", ItemViewSet)
 router.register("uoms", UOMViewSet)
 router.register("item-uoms", ItemUOMViewSet)
+router.register("racks", RackViewSet)
 
 
 app_name = "api"
