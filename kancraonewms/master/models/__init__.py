@@ -2,6 +2,7 @@
 
 from .item import Item
 from .item_uom import ItemUOM
+from .rack import Rack
 from .uom import UOM
 
-__all__ = ["UOM", "Item", "ItemUOM"]
+__all__ = ["UOM", "Item", "ItemUOM", "Rack"]
