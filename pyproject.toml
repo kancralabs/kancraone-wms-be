@@ -144,7 +144,7 @@ dev = [
     "pre-commit==4.5.1",
     "psycopg[c]==3.3.2",
     "pytest==9.0.2",
-    "pytest-cov==6.0.0",
+    "pytest-cov==7.0.0",
     "pytest-django==4.11.1",
     "pytest-sugar==1.1.1",
     "ruff==0.15.1",
