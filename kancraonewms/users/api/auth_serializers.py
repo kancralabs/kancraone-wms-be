@@ -8,8 +8,17 @@ User = get_user_model()
 
 class RegisterSerializer(serializers.ModelSerializer):
     """Serializer untuk registrasi user baru"""
-    password = serializers.CharField(write_only=True, required=True, validators=[validate_password])  # noqa: E501
-    password2 = serializers.CharField(write_only=True, required=True, label="Confirm Password")  # noqa: E501
+
+    password = serializers.CharField(
+        write_only=True,
+        required=True,
+        validators=[validate_password],
+    )
+    password2 = serializers.CharField(
+        write_only=True,
+        required=True,
+        label="Confirm Password",
+    )
     email = serializers.EmailField(required=True)
 
     class Meta:
@@ -21,7 +30,9 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         if attrs["password"] != attrs["password2"]:
-            raise serializers.ValidationError({"password": "Password fields didn't match."})  # noqa: E501
+            raise serializers.ValidationError(
+                {"password": "Password fields didn't match."},
+            )
 
         if User.objects.filter(email=attrs["email"]).exists():
             raise serializers.ValidationError({"email": "Email already exists."})
@@ -43,6 +54,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 class LoginSerializer(TokenObtainPairSerializer):
     """Serializer untuk login dengan JWT token"""
+
     username = serializers.CharField(required=True)
     password = serializers.CharField(required=True, write_only=True)
 
@@ -66,13 +78,24 @@ class LoginSerializer(TokenObtainPairSerializer):
 
 class ChangePasswordSerializer(serializers.Serializer):
     """Serializer untuk ubah password"""
+
     old_password = serializers.CharField(required=True, write_only=True)
-    new_password = serializers.CharField(required=True, write_only=True, validators=[validate_password])  # noqa: E501
-    new_password2 = serializers.CharField(required=True, write_only=True, label="Confirm New Password")  # noqa: E501
+    new_password = serializers.CharField(
+        required=True,
+        write_only=True,
+        validators=[validate_password],
+    )
+    new_password2 = serializers.CharField(
+        required=True,
+        write_only=True,
+        label="Confirm New Password",
+    )
 
     def validate(self, attrs):
         if attrs["new_password"] != attrs["new_password2"]:
-            raise serializers.ValidationError({"new_password": "Password fields didn't match."})  # noqa: E501
+            raise serializers.ValidationError(
+                {"new_password": "Password fields didn't match."},
+            )
         return attrs
 
     def validate_old_password(self, value):
@@ -91,6 +114,7 @@ class ChangePasswordSerializer(serializers.Serializer):
 
 class ResetPasswordRequestSerializer(serializers.Serializer):
     """Serializer untuk request reset password"""
+
     email = serializers.EmailField(required=True)
 
     def validate_email(self, value):
@@ -102,19 +126,40 @@ class ResetPasswordRequestSerializer(serializers.Serializer):
 
 class ResetPasswordConfirmSerializer(serializers.Serializer):
     """Serializer untuk konfirmasi reset password dengan token"""
+
     token = serializers.CharField(required=True)
-    new_password = serializers.CharField(required=True, write_only=True, validators=[validate_password])  # noqa: E501
-    new_password2 = serializers.CharField(required=True, write_only=True, label="Confirm New Password")  # noqa: E501
+    new_password = serializers.CharField(
+        required=True,
+        write_only=True,
+        validators=[validate_password],
+    )
+    new_password2 = serializers.CharField(
+        required=True,
+        write_only=True,
+        label="Confirm New Password",
+    )
 
     def validate(self, attrs):
         if attrs["new_password"] != attrs["new_password2"]:
-            raise serializers.ValidationError({"new_password": "Password fields didn't match."})  # noqa: E501
+            raise serializers.ValidationError(
+                {"new_password": "Password fields didn't match."},
+            )
         return attrs
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
     """Serializer untuk user profile (get me)"""
+
     class Meta:
         model = User
-        fields = ("id", "username", "email", "name", "date_joined", "last_login", "is_active", "is_staff")  # noqa: E501
+        fields = (
+            "id",
+            "username",
+            "email",
+            "name",
+            "date_joined",
+            "last_login",
+            "is_active",
+            "is_staff",
+        )
         read_only_fields = ("id", "username", "date_joined", "last_login", "is_staff")

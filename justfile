@@ -36,3 +36,40 @@ logs *args:
 # manage: Executes `manage.py` command.
 manage +args:
     @docker compose run --rm django python ./manage.py {{args}}
+
+# format: Format code with ruff
+format:
+    @echo "Formatting code with ruff..."
+    @docker compose run --rm django ruff format .
+
+# lint: Check code with ruff
+lint:
+    @echo "Checking code with ruff..."
+    @docker compose run --rm django ruff check .
+
+# lint-fix: Check and auto-fix code with ruff
+lint-fix:
+    @echo "Checking and fixing code with ruff..."
+    @docker compose run --rm django ruff check --fix .
+
+# lint-fix-unsafe: Check and auto-fix code with ruff (including unsafe fixes)
+lint-fix-unsafe:
+    @echo "Checking and fixing code with ruff (unsafe fixes enabled)..."
+    @docker compose run --rm django ruff check --fix --unsafe-fixes .
+
+# quality: Run both format and lint-fix
+quality:
+    @echo "Running code quality checks..."
+    @just format
+    @just lint-fix
+
+# quality-unsafe: Run both format and lint-fix with unsafe fixes
+quality-unsafe:
+    @echo "Running code quality checks with unsafe fixes..."
+    @just format
+    @just lint-fix-unsafe
+
+# djlint: Format Django templates with djlint
+djlint:
+    @echo "Formatting templates with djlint..."
+    @docker compose run --rm django djlint --reformat kancraonewms/templates/

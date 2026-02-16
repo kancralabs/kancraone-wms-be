@@ -46,16 +46,25 @@ class ItemAdmin(admin.ModelAdmin):
         self.message_user(request, _(f"{updated} items deactivated successfully."))  # noqa: INT001
 
     fieldsets = (
-        (_("Basic Information"), {
-            "fields": ("code", "name", "description"),
-        }),
-        (_("Details"), {
-            "fields": ("unit", "is_active"),
-        }),
-        (_("Timestamps"), {
-            "fields": ("created_at", "updated_at"),
-            "classes": ("collapse",),
-        }),
+        (
+            _("Basic Information"),
+            {
+                "fields": ("code", "name", "description"),
+            },
+        ),
+        (
+            _("Details"),
+            {
+                "fields": ("unit", "is_active"),
+            },
+        ),
+        (
+            _("Timestamps"),
+            {
+                "fields": ("created_at", "updated_at"),
+                "classes": ("collapse",),
+            },
+        ),
     )
 
 
@@ -90,16 +99,25 @@ class UOMAdmin(admin.ModelAdmin):
         self.message_user(request, _(f"{updated} UOMs deactivated successfully."))  # noqa: INT001
 
     fieldsets = (
-        (_("Basic Information"), {
-            "fields": ("code", "name", "description"),
-        }),
-        (_("Details"), {
-            "fields": ("uom_type", "conversion_factor", "base_uom", "is_active"),
-        }),
-        (_("Timestamps"), {
-            "fields": ("created_at", "updated_at"),
-            "classes": ("collapse",),
-        }),
+        (
+            _("Basic Information"),
+            {
+                "fields": ("code", "name", "description"),
+            },
+        ),
+        (
+            _("Details"),
+            {
+                "fields": ("uom_type", "conversion_factor", "base_uom", "is_active"),
+            },
+        ),
+        (
+            _("Timestamps"),
+            {
+                "fields": ("created_at", "updated_at"),
+                "classes": ("collapse",),
+            },
+        ),
     )
 
 
@@ -156,24 +174,36 @@ class ItemUOMAdmin(admin.ModelAdmin):
         self.message_user(request, _(f"{item_uom} set as base UOM successfully."))  # noqa: INT001
 
     fieldsets = (
-        (_("Basic Information"), {
-            "fields": ("item", "uom", "conversion_factor"),
-        }),
-        (_("UOM Usage"), {
-            "fields": (
-                "is_base_uom",
-                "is_purchase_uom",
-                "is_sales_uom",
-                "is_stock_uom",
-            ),
-        }),
-        (_("Additional Info"), {
-            "fields": ("barcode", "is_active"),
-        }),
-        (_("Timestamps"), {
-            "fields": ("created_at", "updated_at"),
-            "classes": ("collapse",),
-        }),
+        (
+            _("Basic Information"),
+            {
+                "fields": ("item", "uom", "conversion_factor"),
+            },
+        ),
+        (
+            _("UOM Usage"),
+            {
+                "fields": (
+                    "is_base_uom",
+                    "is_purchase_uom",
+                    "is_sales_uom",
+                    "is_stock_uom",
+                ),
+            },
+        ),
+        (
+            _("Additional Info"),
+            {
+                "fields": ("barcode", "is_active"),
+            },
+        ),
+        (
+            _("Timestamps"),
+            {
+                "fields": ("created_at", "updated_at"),
+                "classes": ("collapse",),
+            },
+        ),
     )
 
 
@@ -210,21 +240,35 @@ class RackAdmin(admin.ModelAdmin):
         self.message_user(request, _(f"{updated} racks deactivated successfully."))  # noqa: INT001
 
     fieldsets = (
-        (_("Basic Information"), {
-            "fields": ("warehouse", "code", "name", "description"),
-        }),
-        (_("Location within Warehouse"), {
-            "fields": ("zone", "aisle", "bay", "level"),
-        }),
-        (_("Capacity"), {
-            "fields": ("capacity", "max_weight"),
-        }),
-        (_("Status"), {
-            "fields": ("is_active", "notes"),
-        }),
-        (_("Timestamps"), {
-            "fields": ("created_at", "updated_at"),
-            "classes": ("collapse",),
-        }),
+        (
+            _("Basic Information"),
+            {
+                "fields": ("warehouse", "code", "name", "description"),
+            },
+        ),
+        (
+            _("Location within Warehouse"),
+            {
+                "fields": ("zone", "aisle", "bay", "level"),
+            },
+        ),
+        (
+            _("Capacity"),
+            {
+                "fields": ("capacity", "max_weight"),
+            },
+        ),
+        (
+            _("Status"),
+            {
+                "fields": ("is_active", "notes"),
+            },
+        ),
+        (
+            _("Timestamps"),
+            {
+                "fields": ("created_at", "updated_at"),
+                "classes": ("collapse",),
+            },
+        ),
     )
-

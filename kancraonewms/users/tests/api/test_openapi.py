@@ -14,7 +14,7 @@ def test_api_docs_accessible_by_admin(admin_client):
 def test_api_docs_not_accessible_by_anonymous_users(client):
     url = reverse("api-docs")
     response = client.get(url)
-    # Returns 401 (Unauthorized) because REST_FRAMEWORK requires authentication by default
+    # Returns 401 (Unauthorized) because REST_FRAMEWORK requires authentication by default  # noqa: E501
     assert response.status_code == HTTPStatus.UNAUTHORIZED
 
 

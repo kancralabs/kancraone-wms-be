@@ -17,12 +17,18 @@ urlpatterns = [
     path("login/", LoginView.as_view(), name="login"),
     path("logout/", LogoutView.as_view(), name="logout"),
     path("me/", GetMeView.as_view(), name="me"),
-
     # Token Management
     path("token/refresh/", CustomTokenRefreshView.as_view(), name="token-refresh"),
-
     # Password Management
     path("change-password/", ChangePasswordView.as_view(), name="change-password"),
-    path("reset-password/", ResetPasswordRequestView.as_view(), name="reset-password-request"),  # noqa: E501
-    path("reset-password/confirm/", ResetPasswordConfirmView.as_view(), name="reset-password-confirm"),  # noqa: E501
+    path(
+        "reset-password/",
+        ResetPasswordRequestView.as_view(),
+        name="reset-password-request",
+    ),
+    path(
+        "reset-password/confirm/",
+        ResetPasswordConfirmView.as_view(),
+        name="reset-password-confirm",
+    ),
 ]
