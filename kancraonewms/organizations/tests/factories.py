@@ -1,5 +1,5 @@
-from factory import DjangoModelFactory
 from factory import Faker
+from factory.django import DjangoModelFactory
 from factory.fuzzy import FuzzyChoice
 
 from kancraonewms.organizations.models import Company
