@@ -1,4 +1,6 @@
 from django.conf import settings
+from django.urls import include
+from django.urls import path
 from rest_framework.routers import DefaultRouter
 from rest_framework.routers import SimpleRouter
 
@@ -20,4 +22,8 @@ router.register("item-uoms", ItemUOMViewSet)
 
 
 app_name = "api"
-urlpatterns = router.urls
+urlpatterns = [  # noqa: RUF005
+    # Auth endpoints
+    path("auth/", include("kancraonewms.users.api.auth_urls")),
+    # Router endpoints
+] + router.urls
