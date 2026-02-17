@@ -35,7 +35,6 @@ updates:
         patterns:
           - '*'
 
-
   - package-ecosystem: 'docker'
     # Look for a `Dockerfile` in the listed directories
     directories:
@@ -67,7 +66,7 @@ updates:
       # Django 6.0 not yet supported by django-celery-beat
       # Remove after https://github.com/cookiecutter/cookiecutter-django/pull/6233
       - dependency-name: 'django'
-        versions: [ '6' ]
+        versions: ['6']
     groups:
       python:
         update-types:

@@ -6,7 +6,7 @@ codecov:
 coverage:
   precision: 2
   round: down
-  range: "70...100"
+  range: '70...100'
   status:
     project:
       default:
@@ -28,20 +28,20 @@ parsers:
       macro: no
 
 comment:
-  layout: "reach,diff,flags,tree"
+  layout: 'reach,diff,flags,tree'
   behavior: default
   require_changes: no
 
 ignore:
-  - "*/tests/*"
-  - "*/test_*.py"
-  - "*/migrations/*"
-  - "*/node_modules/*"
-  - "staticfiles/*"
-  - "*/conftest.py"
-  - "manage.py"
-  - "*/wsgi.py"
-  - "*/asgi.py"
-  - "*/settings/*"
-  - "webpack/*"
-  - "compose/*"
+  - '*/tests/*'
+  - '*/test_*.py'
+  - '*/migrations/*'
+  - '*/node_modules/*'
+  - 'staticfiles/*'
+  - '*/conftest.py'
+  - 'manage.py'
+  - '*/wsgi.py'
+  - '*/asgi.py'
+  - '*/settings/*'
+  - 'webpack/*'
+  - 'compose/*'
