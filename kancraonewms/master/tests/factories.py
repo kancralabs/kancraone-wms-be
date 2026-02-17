@@ -5,9 +5,13 @@ from factory.fuzzy import FuzzyChoice
 from factory.fuzzy import FuzzyDecimal
 
 from kancraonewms.master.models import UOM
+from kancraonewms.master.models import Accessibility
 from kancraonewms.master.models import Item
 from kancraonewms.master.models import ItemUOM
+from kancraonewms.master.models import Menu
 from kancraonewms.master.models import Rack
+from kancraonewms.master.models import Role
+from kancraonewms.master.models import RoleMenuAccess
 from kancraonewms.organizations.tests.factories import WarehouseFactory
 
 
@@ -65,3 +69,52 @@ class RackFactory(DjangoModelFactory):
 
     class Meta:
         model = Rack
+
+
+class RoleFactory(DjangoModelFactory):
+    code = Faker("lexify", text="ROLE-???")
+    name = Faker("job")
+    description = Faker("sentence")
+    is_active = True
+
+    class Meta:
+        model = Role
+
+
+class AccessibilityFactory(DjangoModelFactory):
+    role = SubFactory(RoleFactory)
+    module = Faker(
+        "random_element",
+        elements=["master", "inventory", "transaction", "report"],
+    )
+    feature = Faker("random_element", elements=["item", "uom", "rack", "warehouse"])
+    permission = FuzzyChoice(["create", "read", "update", "delete", "export", "import"])
+    is_granted = True
+
+    class Meta:
+        model = Accessibility
+
+
+class MenuFactory(DjangoModelFactory):
+    code = Faker("lexify", text="MENU-???")
+    name = Faker("bs")
+    icon = Faker("word")
+    url = Faker("uri_path")
+    order = Faker("random_int", min=1, max=100)
+    is_active = True
+    module = Faker(
+        "random_element",
+        elements=["master", "inventory", "transaction", "report"],
+    )
+
+    class Meta:
+        model = Menu
+
+
+class RoleMenuAccessFactory(DjangoModelFactory):
+    role = SubFactory(RoleFactory)
+    menu = SubFactory(MenuFactory)
+    can_access = True
+
+    class Meta:
+        model = RoleMenuAccess

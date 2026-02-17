@@ -4,9 +4,13 @@ from django.urls import path
 from rest_framework.routers import DefaultRouter
 from rest_framework.routers import SimpleRouter
 
+from kancraonewms.master.api.views import AccessibilityViewSet
 from kancraonewms.master.api.views import ItemUOMViewSet
 from kancraonewms.master.api.views import ItemViewSet
+from kancraonewms.master.api.views import MenuViewSet
 from kancraonewms.master.api.views import RackViewSet
+from kancraonewms.master.api.views import RoleMenuAccessViewSet
+from kancraonewms.master.api.views import RoleViewSet
 from kancraonewms.master.api.views import UOMViewSet
 from kancraonewms.organizations.api.views import CompanyViewSet
 from kancraonewms.organizations.api.views import WarehouseViewSet
@@ -21,6 +25,10 @@ router.register("items", ItemViewSet)
 router.register("uoms", UOMViewSet)
 router.register("item-uoms", ItemUOMViewSet)
 router.register("racks", RackViewSet)
+router.register("roles", RoleViewSet)
+router.register("accessibilities", AccessibilityViewSet)
+router.register("menus", MenuViewSet)
+router.register("role-menu-accesses", RoleMenuAccessViewSet)
 
 
 app_name = "api"
