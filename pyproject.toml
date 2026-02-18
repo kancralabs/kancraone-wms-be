@@ -179,7 +179,7 @@ dependencies = [
     "django-celery-beat==2.8.1",
     "django-cors-headers==4.9.0",
     "django-crispy-forms==2.5",
-    "django-environ==0.12.1",
+    "django-environ==0.13.0",
     "django-model-utils==5.0.0",
     "django-redis==6.0.0",
     "django-unfold>=0.79.0",
