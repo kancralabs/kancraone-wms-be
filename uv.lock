@@ -601,14 +601,14 @@ wheels = [
 
 [[package]]
 name = "django-unfold"
-version = "0.80.1"
+version = "0.80.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "django" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/7e/a9/6743626cff7fabc2abe42b411c6556b1a2f39ec6e10a9bb40482408261e4/django_unfold-0.80.1.tar.gz", hash = "sha256:2bd42fcf23bdc37cd0e3880d8682eeb300d1ac0b7dbae2f7a50e14b1b16c9572", size = 1110977, upload-time = "2026-02-17T08:10:44.829Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/18/99/bb6273b4d88afcc37e7f5fa3c8386265eda8c89312f50d751e7450bec7bd/django_unfold-0.80.2.tar.gz", hash = "sha256:6d9baa1694f9c3f8c451ea6e00537375ae1c7832d3ad0110d0f576bd47dae3d1", size = 1111081, upload-time = "2026-02-18T09:25:27.251Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/ce/bd/b80ead3e61c52e547907a461b9d7dbe57068ee21954c13d1cdaf69368413/django_unfold-0.80.1-py3-none-any.whl", hash = "sha256:10f1c676075054ec5fddd590ca52460b636ee552cd3cb2ef068d33fa9014a688", size = 1225924, upload-time = "2026-02-17T08:10:42.891Z" },
+    { url = "https://files.pythonhosted.org/packages/37/11/792187e14290dc7737a78905f6d7ab664da11bb2f29873b5152bdc14114a/django_unfold-0.80.2-py3-none-any.whl", hash = "sha256:9e9d98eb6bcbc58769a7e17b104fa17be88672fb0379e8ca26a4f978564b1b0b", size = 1226068, upload-time = "2026-02-18T09:25:28.853Z" },
 ]
 
 [[package]]
@@ -1102,7 +1102,7 @@ requires-dist = [
     { name = "gunicorn", specifier = "==25.1.0" },
     { name = "hiredis", specifier = "==3.3.0" },
     { name = "pillow", specifier = "==12.1.1" },
-    { name = "psycopg", extras = ["c"], specifier = "==3.3.2" },
+    { name = "psycopg", extras = ["c"], specifier = "==3.3.3" },
     { name = "python-slugify", specifier = "==8.0.4" },
     { name = "redis", specifier = "==7.2.0" },
     { name = "sentry-sdk", specifier = "==2.53.0" },
@@ -1124,7 +1124,7 @@ dev = [
     { name = "ipdb", specifier = "==0.13.13" },
     { name = "mypy", specifier = "==1.19.1" },
     { name = "pre-commit", specifier = "==4.5.1" },
-    { name = "psycopg", extras = ["c"], specifier = "==3.3.2" },
+    { name = "psycopg", extras = ["c"], specifier = "==3.3.3" },
     { name = "pytest", specifier = "==9.0.2" },
     { name = "pytest-cov", specifier = "==7.0.0" },
     { name = "pytest-django", specifier = "==4.12.0" },
@@ -1380,14 +1380,14 @@ wheels = [
 
 [[package]]
 name = "psycopg"
-version = "3.3.2"
+version = "3.3.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "tzdata", marker = "sys_platform == 'win32'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/e0/1a/7d9ef4fdc13ef7f15b934c393edc97a35c281bb7d3c3329fbfcbe915a7c2/psycopg-3.3.2.tar.gz", hash = "sha256:707a67975ee214d200511177a6a80e56e654754c9afca06a7194ea6bbfde9ca7", size = 165630, upload-time = "2025-12-06T17:34:53.899Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/d3/b6/379d0a960f8f435ec78720462fd94c4863e7a31237cf81bf76d0af5883bf/psycopg-3.3.3.tar.gz", hash = "sha256:5e9a47458b3c1583326513b2556a2a9473a1001a56c9efe9e587245b43148dd9", size = 165624, upload-time = "2026-02-18T16:52:16.546Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/8c/51/2779ccdf9305981a06b21a6b27e8547c948d85c41c76ff434192784a4c93/psycopg-3.3.2-py3-none-any.whl", hash = "sha256:3e94bc5f4690247d734599af56e51bae8e0db8e4311ea413f801fef82b14a99b", size = 212774, upload-time = "2025-12-06T17:31:41.414Z" },
+    { url = "https://files.pythonhosted.org/packages/c8/5b/181e2e3becb7672b502f0ed7f16ed7352aca7c109cfb94cf3878a9186db9/psycopg-3.3.3-py3-none-any.whl", hash = "sha256:f96525a72bcfade6584ab17e89de415ff360748c766f0106959144dcbb38c698", size = 212768, upload-time = "2026-02-18T16:46:27.365Z" },
 ]
 
 [package.optional-dependencies]
@@ -1397,9 +1397,9 @@ c = [
 
 [[package]]
 name = "psycopg-c"
-version = "3.3.2"
+version = "3.3.3"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/48/f5/13c6bf88f6ccadc2930066cc5369cee431fc2c87a1ddb621fc27cfe7d8f3/psycopg_c-3.3.2.tar.gz", hash = "sha256:a65927731d394cc77bbf85d02d0311d7843616a4a627f3e816e94ad3a052ef83", size = 624077, upload-time = "2025-12-06T17:34:55.51Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/cb/a0/8feb0ca8c7c20a8b9ac4d46b335ddd57e48e593b714262f006880f34fee5/psycopg_c-3.3.3.tar.gz", hash = "sha256:86ef6f4424348247828e83fb0882c9f8acb33e64d0a5ce66c1b4a5107ee73edd", size = 631965, upload-time = "2026-02-18T16:52:18.084Z" }
 
 [[package]]
 name = "ptyprocess"
